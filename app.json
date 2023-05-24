@@ -1,0 +1,41 @@
+{
+  "expo": {
+    "name": "Summie",
+    "slug": "summie_ios",
+    "version": "1.1.1",
+    "orientation": "portrait",
+    "icon": "./assets/app_icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/logo_splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.joeldev.summie-ios",
+      "buildNumber": "11"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "fe3be938-2758-487b-9453-0114fe2c595f"
+      }
+    }
+  },
+  "react-native-google-mobile-ads": {
+    "android_app_id": "ca-app-pub-4156613766325791~4716632955",
+    "ios_app_id": "ca-app-pub-4156613766325791~2685563075"
+  }
+}
