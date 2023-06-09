@@ -31,9 +31,8 @@ export default function LetterBoxAd(props) {
           margin: 5,
         }}
       >
-        {consumeCtxt.letters.length === 1
-          ? `You have 1 letter in your LetterBox.`
-          : `You have ${consumeCtxt.letters.length} letters in your LetterBox!`}
+        You have {consumeCtxt.letters.length} letters in your{" "}
+        <Text style={{ color: "lightgreen" }}>LetterBox.</Text>
       </Text>
       <Text
         style={{

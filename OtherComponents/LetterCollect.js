@@ -2,14 +2,17 @@ import { Text, StyleSheet, View, Alert, Animated } from "react-native";
 import { useState, useContext, useEffect, useRef } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import playSound from "../Functions/sfx";
+import { Entypo } from "@expo/vector-icons";
 
 import LetterEarned from "./LetterEarned";
 
 import { MetaContext } from "../App";
+import { GameContext } from "../GameComponents/SummieBoard";
 
 export default function LetterCollect(props) {
   ////    ////    inits       ////    ////
   const consumeCtxt = useContext(MetaContext);
+  const consumeCtxtGame = useContext(GameContext);
   const colors = [
     consumeCtxt.colourScheme.red,
     consumeCtxt.colourScheme.orange,
@@ -241,7 +244,7 @@ export default function LetterCollect(props) {
   ////      ////    styles      ////    ////
   const styles = StyleSheet.create({
     parentContainer: {
-      height: "16%",
+      height: consumeCtxtGame.solved === true ? "16%" : "10%",
       width: "100%",
       alignItems: "center",
       justifyContent: "space-evenly",
@@ -270,46 +273,63 @@ export default function LetterCollect(props) {
   ////    ////    component       ////    ////
   return (
     <View style={styles.parentContainer}>
-      <Text style={{ color: "white", fontSize: consumeCtxt.fontSizes.std }}>
-        {textDisplay}
-      </Text>
-      <View style={styles.rowContainer}>
-        {props.lettersEarned.map((letter, index) => {
-          return (
-            <LetterEarned
-              key={index}
-              id={index}
-              letter={letter}
-              color={colors[index]}
-              animateWhich={animateWhich}
-              matches={matchesObject}
-              ascendStreak={ascendSteak}
-              animationComplete={animationComplete}
-            />
-          );
-        })}
-      </View>
-      {props.pointsEarned > 0 ? (
+      {consumeCtxtGame.solved === true ? (
         <>
-          {props.pointsEarned === 1 ? (
-            <Animated.Text style={styles.animatedTxt}>+1 point!</Animated.Text>
-          ) : props.pointsEarned > 1 && props.isBonus === false ? (
-            <Animated.Text style={styles.animatedTxt}>
-              +{totalPoints} points!
-            </Animated.Text>
-          ) : props.pointsEarned > 1 && props.isBonus === true ? (
+          <Text style={{ color: "white", fontSize: consumeCtxt.fontSizes.std }}>
+            {` ${textDisplay} `}
+          </Text>
+          <View style={styles.rowContainer}>
+            {props.lettersEarned.map((letter, index) => {
+              return (
+                <LetterEarned
+                  key={index}
+                  id={index}
+                  letter={letter}
+                  color={colors[index]}
+                  animateWhich={animateWhich}
+                  matches={matchesObject}
+                  ascendStreak={ascendSteak}
+                  animationComplete={animationComplete}
+                />
+              );
+            })}
+          </View>
+          {props.pointsEarned > 0 ? (
             <>
-              <Animated.Text style={styles.animatedTxt}>
-                +{totalPoints} points!{" "}
-                <Animated.Text style={{ color: "gold" }}>
-                  {" "}
-                  // POWERPLAY ACTIVE
+              {props.pointsEarned === 1 ? (
+                <Animated.Text
+                  style={styles.animatedTxt}
+                >{` +1 point! `}</Animated.Text>
+              ) : props.pointsEarned > 1 && props.isBonus === false ? (
+                <Animated.Text style={styles.animatedTxt}>
+                  {` +${totalPoints} points! `}
                 </Animated.Text>
-              </Animated.Text>
+              ) : props.pointsEarned > 1 && props.isBonus === true ? (
+                <>
+                  <Animated.Text style={styles.animatedTxt}>
+                    +{totalPoints} points!{" "}
+                    <Animated.Text style={{ color: "gold" }}>
+                      // POWERPLAY ACTIVE
+                    </Animated.Text>
+                    {""}
+                  </Animated.Text>
+                </>
+              ) : null}
             </>
           ) : null}
         </>
-      ) : null}
+      ) : (
+        <>
+          <Text
+            style={{
+              color: "white",
+              fontSize: consumeCtxt.fontSizes.subHeader,
+            }}
+          >
+            You made too many mistakes!
+          </Text>
+        </>
+      )}
     </View>
   );
 }

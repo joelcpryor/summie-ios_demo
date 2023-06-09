@@ -297,7 +297,7 @@ export default function LayoutSnack(props) {
         {props.orientation === "portrait" ? (
           <>
             <BannerAd
-              unitId={TestIds.BANNER}
+              unitId="ca-app-pub-4156613766325791/1204305843"
               size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
             />
             <View style={styles.counterContainer}>

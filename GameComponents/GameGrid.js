@@ -17,22 +17,20 @@ export default function GameGrid(props) {
 
   ////    ////    functions   ////    ////
 
-  const getHeight = () => {
-    //  Keep here in case sizes need to be customised for each mode.
-    if (consumeCtxt.diff === "practice") {
-      return { height: metaCtxt.dimensions.height * 0.42 };
-    } else {
-      return { height: metaCtxt.dimensions.height * 0.45 };
-    }
-  };
-
   ////    ////    useEffects  ////    ////
 
   ////    ////    styles      ////    ////
   const styles = StyleSheet.create({
     parentContainer: {
       width: "100%",
-      maxWidth: metaCtxt.dimensions.height * 0.55,
+      height:
+        metaCtxt.dimensions.height * 0.425 > 310
+          ? metaCtxt.dimensions.height * 0.425
+          : 310,
+      maxWidth:
+        metaCtxt.dimensions.height * 0.425 > 310
+          ? metaCtxt.dimensions.height * 0.43
+          : 310,
       justifyContent: "space-evenly",
       transform: [
         {
@@ -54,7 +52,7 @@ export default function GameGrid(props) {
   ////    ////    component   ////    ////
 
   return (
-    <Animated.View style={[styles.parentContainer, getHeight()]}>
+    <Animated.View style={styles.parentContainer}>
       {props.diff === "break_my_brain" ? <G6 /> : <G5 />}
     </Animated.View>
   );

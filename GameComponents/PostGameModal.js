@@ -9,9 +9,11 @@ import {
   Dimensions,
   Alert,
 } from "react-native";
+import GameGrid from "./GameGrid";
 
 import { useNavigation } from "@react-navigation/native";
 import { MetaContext } from "../App";
+import { GameContext } from "./SummieBoard";
 
 import BonusDisplay from "../OtherComponents/BonusDisplay";
 import ShareBox from "../OtherComponents/ShareBox";
@@ -27,6 +29,7 @@ export default function PostGameModal(props) {
   ////    ////    inits   ////    ////
   const navigation = useNavigation();
   const consumeCtxt = useContext(MetaContext);
+  const consumeCtxtGame = useContext(GameContext);
   const { isLoaded, isClosed, load, show } = useInterstitialAd(
     "ca-app-pub-4156613766325791/8752374717",
     {
@@ -163,16 +166,18 @@ export default function PostGameModal(props) {
       <SafeAreaView style={{ flex: 1 }}>
         <View style={styles.modal}>
           <View style={styles.modalContent}>
-            <View style={styles.header}>
-              <Text
-                style={{
-                  fontSize: consumeCtxt.fontSizes.header,
-                  fontWeight: "bold",
-                }}
-              >
-                Well done!
-              </Text>
-            </View>
+            {consumeCtxtGame.solved === true ? (
+              <View style={styles.header}>
+                <Text
+                  style={{
+                    fontSize: consumeCtxt.fontSizes.header,
+                    fontWeight: "bold",
+                  }}
+                >
+                  {` Well done! `}
+                </Text>
+              </View>
+            ) : null}
 
             <LetterCollect
               lettersEarned={props.lettersEarned}
@@ -189,26 +194,46 @@ export default function PostGameModal(props) {
                 height: "65%",
                 justifyContent: "space-evenly",
                 alignItems: "center",
-                backgroundColor: "lightblue",
+                backgroundColor:
+                  consumeCtxtGame.solved === true
+                    ? "lightblue"
+                    : "rgba(0,0,0,0.9)",
               }}
             >
-              {bonusDisplay === true && props.orientation === "portrait" ? (
-                <BonusDisplay />
+              {consumeCtxtGame.solved === true ? (
+                <>
+                  {bonusDisplay === true && props.orientation === "portrait" ? (
+                    <BonusDisplay />
+                  ) : (
+                    <BannerAd
+                      size={
+                        consumeCtxt.dimensions.height < 670
+                          ? BannerAdSize.BANNER
+                          : BannerAdSize.MEDIUM_RECTANGLE
+                      }
+                      unitId="ca-app-pub-4156613766325791/4297373042"
+                      requestOptions={{
+                        requestNonPersonalizedAdsOnly: consumeCtxt.targetedAds,
+                      }}
+                    />
+                  )}
+                  {consumeCtxtGame.solved === true ? (
+                    <ShareBox picRoute={props.picRoute} />
+                  ) : null}
+                </>
               ) : (
-                <BannerAd
-                  size={
-                    consumeCtxt.dimensions.height < 670
-                      ? BannerAdSize.BANNER
-                      : BannerAdSize.MEDIUM_RECTANGLE
-                  }
-                  unitId="ca-app-pub-4156613766325791/4297373042"
-                  requestOptions={{
-                    requestNonPersonalizedAdsOnly: consumeCtxt.targetedAds,
-                  }}
-                />
+                <>
+                  <Text
+                    style={{
+                      fontSize: consumeCtxt.fontSizes.subHeader,
+                      color: "white",
+                    }}
+                  >
+                    The correct solution:
+                  </Text>
+                  <GameGrid diff={consumeCtxtGame.diff} />
+                </>
               )}
-
-              <ShareBox picRoute={props.picRoute} />
             </View>
 
             {canExit === true ? (
@@ -220,7 +245,7 @@ export default function PostGameModal(props) {
                   backgroundColor: "lightgrey",
                 }}
                 onPress={() => {
-                  const rand = Math.floor(Math.random() * 4);
+                  const rand = Math.floor(Math.random() * 2);
                   if (rand === 0 && consumeCtxt.points >= 5) {
                     if (isLoaded === true) {
                       show();
@@ -233,12 +258,12 @@ export default function PostGameModal(props) {
                 }}
               >
                 <Text style={{ fontSize: consumeCtxt.fontSizes.std }}>
-                  Return to menu
+                  {` Return to menu `}
                 </Text>
               </TouchableOpacity>
             ) : (
               <Text style={{ fontSize: consumeCtxt.fontSizes.std }}>
-                Receiving letters ...
+                {` Receiving letters ... `}
               </Text>
             )}
           </View>

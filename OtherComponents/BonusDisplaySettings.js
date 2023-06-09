@@ -19,7 +19,7 @@ export default function BonusDisplaySettings() {
       <Text
         style={{ fontSize: consumeCtxt.fontSizes.small, textAlign: "center" }}
       >
-        This setting, and others, can be changed by tapping the settings icon in
+        This setting, and others, can be changed by tapping to settings icon in
         the top-left corner of the menu screen.
       </Text>
     </>

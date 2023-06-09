@@ -30,10 +30,18 @@ export default function BtmPortrait(props) {
         </>
       ) : props.diff === "slightly_stressful" ? (
         <>
-          <BtmRow landscape={false} ids={["b0", "b1", "b2", "b3"]} />
-          <BtmRow landscape={false} ids={["b4", "b5", "b6", "b7"]} />
-          <BtmRow landscape={false} ids={["b8", "b9", "b10", "b11"]} />
-          <BtmRow landscape={false} ids={["b12", "b13", "b14", "b15"]} />
+          <BtmRow
+            landscape={false}
+            ids={["b0", "b1", "b2", "b3", "b4", "b5"]}
+          />
+          <BtmRow
+            landscape={false}
+            ids={["b6", "b7", "b8", "b9", "b10", "b11"]}
+          />
+          <BtmRow
+            landscape={false}
+            ids={["b12", "b13", "b14", "b15", "b16", "b17"]}
+          />
         </>
       ) : props.diff === "kinda_hard" ? (
         <>

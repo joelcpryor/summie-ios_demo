@@ -15,9 +15,8 @@ import {
   cellRelationships,
   boardSegments,
 } from "../Functions/Objects";
-//import getIsNot from "../Functions/getIsNot";
 import getIsNot6 from "../Functions/getIsNot6";
-//import getCornerHints from "../Functions/getCornerHints";
+import playSound from "../Functions/sfx";
 
 export default function GameCell(props) {
   ////    ////    inits     ////    ////
@@ -122,6 +121,17 @@ export default function GameCell(props) {
     }
   };
 
+  const registerMistake = async () => {
+    try {
+      const didRegister = await consumeCtxt.incrementMistakes();
+      if (didRegister === true) {
+        setColor("pink");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const toggleHints = () => {
     try {
       if (isNotVal !== null) {
@@ -220,9 +230,38 @@ export default function GameCell(props) {
           if (consumeCtxt.gameVals[props.id] === null) {
             //  If cell has been vacated, set displayed value == defaultVal.
             setVal(defaultVal);
+
+            if (color === "pink") {
+              if (isOdd !== null) {
+                setColor("lightblue");
+              } else {
+                setColor("white");
+              }
+            }
           } else {
             //  Else, set displayed value == to gameVals element.
             setVal(consumeCtxt.gameVals[props.id]);
+            if (
+              consumeCtxt.solutions[props.id] !== null &&
+              consumeCtxt.solutions[props.id] !== undefined
+            ) {
+              if (
+                consumeCtxt.gameVals[props.id] !==
+                  consumeCtxt.solutions[props.id] &&
+                consumeCtxt.mistakesRemaining > 0
+              ) {
+                registerMistake();
+                playSound("puzzle-error", consumeCtxtMeta.mute);
+              } else {
+                if (
+                  consumeCtxt.mistakesRemaining > 0 ||
+                  consumeCtxt.diff === "easy" ||
+                  consumeCtxt.diff === "not_so_easy"
+                ) {
+                  playSound("lift", consumeCtxtMeta.mute);
+                }
+              }
+            }
           }
         } else {
           if (style === "sum") {
@@ -240,7 +279,7 @@ export default function GameCell(props) {
     } catch (err) {
       console.log(err);
     }
-  }, [consumeCtxt.gameVals]);
+  }, [consumeCtxt.gameVals[props.id]]);
 
   useEffect(() => {
     //  Updates value and sets border to 90 degrees (round) if the current value == the cell's solution.
@@ -363,7 +402,7 @@ export default function GameCell(props) {
 
   useEffect(() => {
     try {
-      if (isNotVal !== null) {
+      if (isNotVal !== null && consumeCtxt.mistakesRemaining > 0) {
         setTimeout(() => {
           toggleHints();
         }, 1500);
@@ -402,6 +441,21 @@ export default function GameCell(props) {
       console.log(err);
     }
   }, [consumeCtxt.smartGrid]);
+
+  useEffect(() => {
+    try {
+      if (consumeCtxt.mistakesRemaining === 0) {
+        if (color === "pink") {
+          setColor("white");
+        }
+        setTimeout(() => {
+          setVal(consumeCtxt.solutions[props.id]);
+        }, 2000);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }, [consumeCtxt.mistakesRemaining]);
 
   ////    ////    styles      ////    ////
   const styles = StyleSheet.create({
@@ -560,6 +614,7 @@ export default function GameCell(props) {
             }
           >
             {val}
+            {""}
           </Text>
         ) : (
           <Text
@@ -574,6 +629,7 @@ export default function GameCell(props) {
             </Text>
 
             {consumeCtxt.solutions[props.id]}
+            {""}
           </Text>
         )}
       </Animated.View>

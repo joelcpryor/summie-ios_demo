@@ -6,6 +6,7 @@ const diffObject = {
     reward_snack: "1x point per puzzle",
     grid_size: "5x5",
     color: "red",
+    errors: "unlimited",
   },
   not_so_easy: {
     text: "NOT SO EASY",
@@ -14,22 +15,25 @@ const diffObject = {
     reward_snack: "2x points per puzzle",
     grid_size: "5x5",
     color: "orange",
+    errors: "unlimited",
   },
   slightly_stressful: {
     text: "SLIGHTLY STRESSFUL",
     cost: "1x credit",
     reward_classic: "3x letters, 6x points",
-    reward_snack: "3x points per puzzle",
+    reward_snack: "4x points per puzzle",
     grid_size: "5x5",
     color: "yellow",
+    errors: "4",
   },
   kinda_hard: {
     text: "KINDA HARD",
     cost: "1x credit",
     reward_classic: "4x letters, 8x points",
-    reward_snack: "5x points per puzzle",
+    reward_snack: "8x points per puzzle",
     grid_size: "5x5",
     color: "green",
+    errors: "3",
   },
   pretty_damn_tricky: {
     text: "PRETTY DAMN TRICKY",
@@ -38,6 +42,7 @@ const diffObject = {
     reward_snack: "9x points per puzzle",
     grid_size: "5x5",
     color: "blue",
+    errors: "3",
   },
   break_my_brain: {
     text: "BREAK MY BRAIN",
@@ -46,6 +51,7 @@ const diffObject = {
     reward_snack: null,
     grid_size: "6x6",
     color: "violet",
+    errors: "3",
   },
 };
 
@@ -228,8 +234,8 @@ const gridInfo6 = {
 const snackRef = {
   snack0: 1,
   snack1: 2,
-  snack2: 3,
-  snack3: 5,
+  snack2: 4,
+  snack3: 8,
   snack4: 9,
 };
 
@@ -517,7 +523,7 @@ const practiceSequence = [
     reveal: ["c0_4", "c1_4", "c4_4", "c4_0", "c4_1"],
   },
   {
-    text: "Another type of hint that you might encounter is the 'is-not' hint. These hints display a number which does NOT belong in the shaded tile. For example, if the tile displays '!7', you can be sure that the tile contains a number other than 7.\n\nYou can flip the 'is-not' hint into an 'odd-even' hint by tapping the shaded tile.",
+    text: "Another type of hint that you might encounter is the 'is-not' hint. These hints display a number which does NOT belong in the shaded tile. For example, if the tile displays '!9', you can be sure that the tile contains a number other than 9.\n\nYou can flip the 'is-not' hint into an 'odd-even' hint by tapping the shaded tile.",
     fix: ["c1_4", "c4_1"],
     btm: [7, 4, 7, 9, 2, 7],
     odd_even: ["c1_2", "c5_4"],

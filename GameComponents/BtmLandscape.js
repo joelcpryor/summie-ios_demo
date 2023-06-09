@@ -30,10 +30,10 @@ export default function BtmLandscape(props) {
         </>
       ) : props.diff === "slightly_stressful" ? (
         <>
-          <BtmRow landscape={true} ids={["b0", "b1", "b2", "b3"]} />
-          <BtmRow landscape={true} ids={["b4", "b5", "b6", "b7"]} />
-          <BtmRow landscape={true} ids={["b8", "b9", "b10", "b11"]} />
-          <BtmRow landscape={true} ids={["b12", "b13", "b14", "b15"]} />
+          <BtmRow landscape={true} ids={["b0", "b1", "b2", "b3", "b4"]} />
+          <BtmRow landscape={true} ids={["b5", "b6", "b7", "b8", "b9"]} />
+          <BtmRow landscape={true} ids={["b10", "b11", "b12", "b13", "b14"]} />
+          <BtmRow landscape={true} ids={["b15", "b16", "b17"]} />
         </>
       ) : props.diff === "kinda_hard" ? (
         <>

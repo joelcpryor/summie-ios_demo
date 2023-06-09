@@ -162,7 +162,7 @@ export default function BtmCell(props) {
     <>
       {renderMe === true ? (
         <Pressable
-          style={{ width: "13%" }}
+          style={{ width: "12.5%" }}
           onPress={() => {
             //  Check whether cell is active and not empty.
             if (val !== null && val !== undefined && opacity === 1) {

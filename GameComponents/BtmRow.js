@@ -10,7 +10,7 @@ export default function BtmRow(props) {
         props.landscape === true
           ? "18%"
           : props.landscape === false
-          ? "22%"
+          ? "21%"
           : "40%",
       width: "100%",
       flexDirection: "row",

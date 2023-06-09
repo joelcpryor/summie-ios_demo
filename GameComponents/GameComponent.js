@@ -150,6 +150,19 @@ export default function GameComponent(props) {
     thisFunction();
   }, [consumeCtxt.solved]);
 
+  useEffect(() => {
+    try {
+      if (consumeCtxt.mistakesRemaining === 0) {
+        setTimeout(() => {
+          setModalVisible(true);
+          playSound("puzzle-failed", consumeCtxtMeta.mute);
+        }, 500);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }, [consumeCtxt.mistakesRemaining]);
+
   ////    ////    styles    ////    ////
   const styles = StyleSheet.create({
     parentContainer: {

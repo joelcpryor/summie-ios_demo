@@ -203,23 +203,23 @@ export default function Menu() {
     handleOrientationChange();
 
     if (consumeCtxt.dimensions.height <= 812) {
-      setImageHeight(200);
-      setImageWidth(300);
+      setImageHeight(190);
+      setImageWidth(285);
     } else if (
       consumeCtxt.dimensions.height > 812 &&
       consumeCtxt.dimensions.height < 932
     ) {
-      setImageHeight(220);
-      setImageWidth(330);
+      setImageHeight(210);
+      setImageWidth(315);
     } else if (
       consumeCtxt.dimensions.height >= 932 &&
       consumeCtxt.dimensions.height < 1133
     ) {
-      setImageHeight(240);
-      setImageWidth(360);
+      setImageHeight(230);
+      setImageWidth(345);
     } else if (consumeCtxt.dimensions.height >= 1133) {
-      setImageHeight(360);
-      setImageWidth(540);
+      setImageHeight(345);
+      setImageWidth(520);
     }
 
     setTimeout(() => {
@@ -335,7 +335,7 @@ export default function Menu() {
           ) : null}
 
           <SpacedContainer
-            height={consumeCtxt.dimensions.height * 0.45}
+            height={consumeCtxt.dimensions.height * 0.44}
             width="96%"
             color="rgba(0,0,0,0.8)"
             aI="center"

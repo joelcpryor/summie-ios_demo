@@ -6,6 +6,7 @@ import {
   Animated,
   Pressable,
   Alert,
+  Easing,
 } from "react-native";
 import { captureRef } from "react-native-view-shot";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -39,6 +40,31 @@ export default function LayoutGame(props) {
       useNativeDriver: false,
     })
   ).current;
+  const animationB = useRef(new Animated.Value(0)).current;
+  const startShake = () => {
+    const shakeText = Animated.sequence([
+      Animated.timing(animationB, {
+        toValue: -20,
+        duration: 200,
+        useNativeDriver: false,
+        easing: Easing.linear,
+      }),
+      Animated.timing(animationB, {
+        toValue: 20,
+        duration: 200,
+        useNativeDriver: false,
+        easing: Easing.linear,
+      }),
+      Animated.timing(animationB, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: false,
+        easing: Easing.linear,
+      }),
+    ]);
+
+    shakeText.start();
+  };
 
   ////    ////    states    ////    ////
   const [VSHeight, setVSHeight] = useState("70%");
@@ -86,6 +112,16 @@ export default function LayoutGame(props) {
       console.log(err);
     }
   }, [props.orientation]);
+
+  useEffect(() => {
+    try {
+      if (consumeCtxt.mistakesRemaining < 3) {
+        startShake();
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }, [consumeCtxt.mistakesRemaining]);
 
   ////    ////    styles    ////    ////
   const styles = StyleSheet.create({
@@ -152,7 +188,7 @@ export default function LayoutGame(props) {
     gameContainer: {
       height: animationA.interpolate({
         inputRange: [0, 0.5, 1],
-        outputRange: ["78%", "78%", "100%"],
+        outputRange: ["80%", "80%", "100%"],
       }),
       width: animationA.interpolate({
         inputRange: [0, 1],
@@ -199,17 +235,33 @@ export default function LayoutGame(props) {
       width: "15%",
       alignItems: "center",
     },
+    counterDisplay: {
+      alignSelf: "flex-start",
+      width: "100%",
+    },
     counterText: {
       fontSize: animationA.interpolate({
         inputRange: [0, 1],
-        outputRange: [1, consumeCtxtMeta.fontSizes.std],
+        outputRange: [
+          consumeCtxtMeta.fontSizes.std,
+          consumeCtxtMeta.fontSizes.subHeader,
+        ],
       }),
       opacity: animationA.interpolate({
         inputRange: [0, 1],
-        outputRange: [0, 1],
+        outputRange: [0.75, 1],
       }),
-      fontWeight: "bold",
-      color: "aliceblue",
+      fontWeight: "400",
+      color: animationA.interpolate({
+        inputRange: [0, 1],
+        outputRange: ["lightgrey", "aliceblue"],
+      }),
+      alignSelf: "center",
+      transform: [
+        {
+          translateX: animationB,
+        },
+      ],
     },
   });
 
@@ -281,9 +333,18 @@ export default function LayoutGame(props) {
 
         <Animated.View style={styles.gameContainer}>
           <Animated.View style={styles.counterDisplay}>
-            <Animated.Text style={styles.counterText}>
-              You finished in {consumeCtxt.counter} moves!
-            </Animated.Text>
+            {consumeCtxt.solved === true ? (
+              <Animated.Text
+                style={styles.counterText}
+              >{` You finished in ${consumeCtxt.counter} moves! `}</Animated.Text>
+            ) : consumeCtxt.solved === false &&
+              consumeCtxt.diff !== "easy" &&
+              consumeCtxt.diff !== "not_so_easy" &&
+              consumeCtxt.mistakesDisabled === false ? (
+              <Animated.Text
+                style={styles.counterText}
+              >{` Mistakes remaining: ${consumeCtxt.mistakesRemaining} `}</Animated.Text>
+            ) : null}
           </Animated.View>
           <GameGrid diff={props.diff} />
         </Animated.View>

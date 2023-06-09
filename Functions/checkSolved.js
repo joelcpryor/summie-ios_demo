@@ -34,8 +34,11 @@ export default async function checkSolved(diff, sums, solutions) {
                 sums.c5_0 !== 0 &&
                 sums.c5_0 !== null
               ) {
-                resolve(true);
-                return;
+                if (sums.c0_3 === sums.c6_3 && sums.c3_0 === sums.c3_6) {
+                  //console.log("yellows good");
+                  resolve(true);
+                  return;
+                }
               }
             }
           }

@@ -26,6 +26,7 @@ export default function DiffSelection(props) {
     },
     otherText: {
       fontSize: consumeCtxt.fontSizes.subHeader,
+      fontWeight: 300,
       color: "white",
     },
     playBtn: {
@@ -102,6 +103,14 @@ export default function DiffSelection(props) {
               : ` ${diffObject[props.selectedDiff].grid_size} `}
           </Text>
         </Text>
+        {props.snack === true ? null : (
+          <Text style={styles.otherText}>
+            Mistakes:{" "}
+            <Text style={{ fontWeight: "bold" }}>{` ${
+              diffObject[props.selectedDiff].errors
+            } `}</Text>
+          </Text>
+        )}
       </View>
       <View style={{ width: "90%" }}>
         <Slider

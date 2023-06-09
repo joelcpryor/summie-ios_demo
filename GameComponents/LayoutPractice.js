@@ -150,7 +150,7 @@ export default function LayoutPractice(props) {
     gameContainer: {
       height: animationA.interpolate({
         inputRange: [0, 0.5, 1],
-        outputRange: ["72%", "72%", "100%"],
+        outputRange: ["70%", "70%", "100%"],
       }),
       width: animationA.interpolate({
         inputRange: [0, 1],
@@ -227,10 +227,7 @@ export default function LayoutPractice(props) {
                     <SpacedContainer color="lightblue">
                       <View
                         style={{
-                          height:
-                            consumeCtxt.phase < 6
-                              ? metaCtxt.dimensions.height * 0.16
-                              : metaCtxt.dimensions.height * 0.14,
+                          height: metaCtxt.dimensions.height * 0.16,
                         }}
                       >
                         <ScrollView style={{ flex: 1 }} ref={scrollRef}>

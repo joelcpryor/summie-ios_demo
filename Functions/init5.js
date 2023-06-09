@@ -1,4 +1,4 @@
-import puzzleGen5 from "./puzzleGen5";
+import puzzleGen5 from "./puzzleGen5-1";
 
 function getPuzzle(diff) {
   return new Promise((resolve, reject) => {

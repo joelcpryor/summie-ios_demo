@@ -37,6 +37,10 @@ export default async function playSound(prompt, muted) {
         );
       } else if (prompt === "time-expired") {
         await soundObject.loadAsync(require("../Sounds/zapsplat_times_up.mp3"));
+      } else if (prompt === "puzzle-error") {
+        await soundObject.loadAsync(require("../Sounds/zapsplat_error.mp3"));
+      } else if (prompt === "puzzle-failed") {
+        await soundObject.loadAsync(require("../Sounds/zapsplat_failure.mp3"));
       }
       await soundObject.playAsync();
     }

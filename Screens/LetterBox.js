@@ -236,10 +236,10 @@ export default function LetterBoxScreen() {
 
   const rewardUser = async (pointQty) => {
     const newPoints = consumeCtxt.points + pointQty;
-    const newArray = await amendArray(wordToSubmit, consumeCtxt.letters);
+    await amendArray(wordToSubmit, consumeCtxt.letters);
     let confetti = false;
     //  Sync @letters with `letters`.
-    await AsyncStorage.setItem("@letters", JSON.stringify(newArray));
+    await AsyncStorage.setItem("@letters", JSON.stringify(consumeCtxt.letters));
     //  If user has just survived the week, increment weeksSurvived.
     if (consumeCtxt.points < consumeCtxt.pointThreshold) {
       if (newPoints >= consumeCtxt.pointThreshold) {

@@ -61,6 +61,8 @@ export default function SummieBoard(props) {
   const [hintModalVisible, setHintModalVisible] = useState(false);
   const [smartGrid, setSmartGrid] = useState(null);
   const [hintObj, setHintObj] = useState({});
+  const [mistakesRemaining, setMistakesRemaining] = useState(3);
+  const [mistakesDisabled, setMistakesDisabled] = useState(false);
 
   ////      ////    functions       ////    ////
   const redirectAfterError = async () => {
@@ -91,6 +93,7 @@ export default function SummieBoard(props) {
         props.diff === "pretty_damn_tricky"
       ) {
         const puzzle = await init5(props.diff);
+        //console.log(JSON.stringify(puzzle[2]));
         setHintObj(puzzle[6]);
         setLongArray(puzzle[5]);
         setGameVals(puzzle[0]);
@@ -167,9 +170,15 @@ export default function SummieBoard(props) {
       setPressed([null, null]);
       //  Increment the move counter.
       setCounter((prev) => prev + 1);
-      playSound("lift", consumeCtxt.mute);
+      if (props.mode === "snack") {
+        playSound("lift", consumeCtxt.mute);
+      }
     }
   };
+
+  /*const populateGrid = (id, val) => {
+    setGameVals(solutions);
+  };*/
 
   const dropNumber = (id, val) => {
     //  Whenever an occupied gameCell is pressed (action handled in child component) ...
@@ -201,6 +210,26 @@ export default function SummieBoard(props) {
     // Update sum cells whenever a cell is changed.
     try {
       setSums(await getSums(gameVals, props.diff));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const incrementMistakes = () => {
+    try {
+      return new Promise((resolve, reject) => {
+        if (
+          props.mode === "game" &&
+          props.diff !== "easy" &&
+          props.diff !== "not_so_easy" &&
+          mistakesDisabled === false
+        ) {
+          setMistakesRemaining((prev) => prev - 1);
+          resolve(true);
+        } else {
+          resolve(null);
+        }
+      });
     } catch (err) {
       console.log(err);
     }
@@ -288,8 +317,17 @@ export default function SummieBoard(props) {
 
   ////      ////    useEffects      ////    ////
   useEffect(() => {
-    if (props.mode == "game" || props.mode === "snack") {
+    if (props.mode === "game" || props.mode === "snack") {
       initialise();
+      if (
+        props.mode === "snack" ||
+        props.diff === "easy" ||
+        props.diff === "not_so_easy"
+      ) {
+        setMistakesRemaining(null);
+      } else if (props.diff === "slightly_stressful") {
+        setMistakesRemaining(4);
+      }
 
       if (consumeCtxt.points === 0 && consumeCtxt.weeksSurvived === 0) {
         setTimeout(() => {
@@ -309,6 +347,19 @@ export default function SummieBoard(props) {
     // Update sums whenever gameVals is modified.
     try {
       updateSums();
+      if (props.mode === "game") {
+        let vacants = 0;
+        for (var i in gameVals) {
+          if (gameVals[i] === null) {
+            vacants++;
+          }
+        }
+        if (vacants <= 4) {
+          setMistakesDisabled(true);
+        } else {
+          setMistakesDisabled(false);
+        }
+      }
     } catch (err) {
       console.log(err);
     }
@@ -346,7 +397,10 @@ export default function SummieBoard(props) {
             }
           }
           const result = await checkSolved(props.diff, sums, solutions);
-          if (result === true) {
+          if (
+            result === true &&
+            (mistakesRemaining === null || mistakesRemaining > 0)
+          ) {
             setSolved(true);
           }
         }
@@ -412,6 +466,32 @@ export default function SummieBoard(props) {
     }
   }, [phase]);
 
+  useEffect(() => {
+    try {
+      if (mistakesRemaining === 0) {
+        setPressable(false);
+        if (smartGrid !== null) {
+          setSmartGrid("default");
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }, [mistakesRemaining]);
+
+  useEffect(() => {
+    try {
+      if (solved === true) {
+        setPressable(false);
+        if (smartGrid !== null) {
+          setSmartGrid("default");
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }, [solved]);
+
   ////      ////    context     ////    ////
   const ctxtElements = {
     phase,
@@ -434,6 +514,9 @@ export default function SummieBoard(props) {
     hints,
     hintModalVisible,
     smartGrid,
+    mistakesRemaining,
+    mistakesDisabled,
+    incrementMistakes,
     toggleHintModal,
     btmPress,
     liftNumber,

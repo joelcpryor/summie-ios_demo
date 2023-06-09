@@ -8,20 +8,19 @@ export default function BonusDisplayFixed() {
   return (
     <>
       <Text style={{ fontSize: consumeCtxt.fontSizes.std, fontWeight: "bold" }}>
-        Did you know ...
+        Remember ...
       </Text>
       <Text
         style={{ fontSize: consumeCtxt.fontSizes.small, textAlign: "center" }}
       >
-        Pressing and holding a white tile will fix it in place. Fixed tiles
-        remain in place when you reset the grid, allowing you to 'set and
-        forget' tiles that you know are correct.
+        The yellow rows and columns will always sum to 9, and each of them
+        contains a unique combination of numbers.
       </Text>
       <Text
         style={{ fontSize: consumeCtxt.fontSizes.small, textAlign: "center" }}
       >
-        Later, if you want to unfix the tile, you can simply press and hold
-        again!
+        Pay attention to this rule, because it will help you to reason through
+        the puzzle.
       </Text>
     </>
   );

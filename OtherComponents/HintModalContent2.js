@@ -63,14 +63,15 @@ export default function HintModalContent2(props) {
       />
       <Text style={styles.subHeaderTxt}>
         <Text style={{ fontWeight: "bold" }}>REMEMBER: </Text>
-        Each yellow row and column contains a{" "}
+        Each yellow row and column{" "}
+        <Text style={{ fontWeight: "bold" }}>sums to 9</Text> and contains a{" "}
         <Text style={{ fontWeight: "bold" }}>unique</Text> combination of
         numbers.
       </Text>
       <Text style={styles.subHeaderTxt}>
         Therefore, if a number between 1 and 8 appears only once below the grid,
-        then you know it <Text style={{ fontWeight: "bold" }}>must</Text> belong
-        in a yellow row or column!
+        you know it <Text style={{ fontWeight: "bold" }}>must</Text> belong in a
+        yellow row or column. Use this knowledge to rule out combinations.
       </Text>
 
       <Button

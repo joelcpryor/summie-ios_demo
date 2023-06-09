@@ -13,8 +13,8 @@ export default function BonusDisplaySocials() {
       <Text
         style={{ fontSize: consumeCtxt.fontSizes.small, textAlign: "center" }}
       >
-        Summie was developed by a team that didn't know anything about app
-        development until October 2022!
+        Summie is the first app ever developed by Vibe Shift, a software
+        start-up based in Adelaide, Australia.
       </Text>
       <Text
         style={{ fontSize: consumeCtxt.fontSizes.small, textAlign: "center" }}
